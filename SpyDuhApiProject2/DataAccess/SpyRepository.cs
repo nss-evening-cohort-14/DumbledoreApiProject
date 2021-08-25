@@ -36,12 +36,17 @@ namespace SpyDuhApiProject2.DataAccess
             },
                new Spy
             {
-                Alias = "Harry",
+                Alias = "Carry",
                 Id = Guid.NewGuid(),
-                AboutMe = "I'm super nosy so I became a spy.",
-                Skills = { "Stealth", "Investigation", "camouflage" },
-                Services = {"Breaking in to read people's diaries", "Infiltrating a book club"}
+                AboutMe = "It's fun to do hood rat stuff with your friends.",
+                Skills = { "Stealth", "Armed Robbery", "GTA" },
+                Services = {"Burning your grandmother's cookies", "Infiltrating a book club"}
             },
         };
+
+        internal Spy GetById(Guid spyId)
+        {
+            return _spies.FirstOrDefault(spy => spy.Id == spyId);
+        }
     }
 }
