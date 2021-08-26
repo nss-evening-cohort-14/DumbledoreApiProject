@@ -50,9 +50,17 @@ namespace SpyDuhApiProject2.Controllers
         public IActionResult GetSpyDuhMemberSkills(SpyDuhMember member)
         {
             if (member == null)
-                return NotFound("There was no matching spy in the database");
+                return NotFound("There are no matching skills for this SpyDuh Member.");
 
-            return (IActionResult)_spyDuhMembersRepository.GetMemberSkills(member);
+            return Ok(_spyDuhMembersRepository.GetMemberSkills(member));
+        }   
+        
+        public IActionResult GetSpyDuhMemberServices(SpyDuhMember member)
+        {
+            if (member == null)
+                return NotFound("There are no matching services for this SpyDuh Member.");
+
+            return Ok(_spyDuhMembersRepository.GetMemberServices(member));
         }
         
     }
