@@ -45,6 +45,15 @@ namespace SpyDuhApiProject2.Controllers
             return Created($"/api/spyDuhMembers/{spy.Id}", spyDuhMember); 
 
         }
+
+        [HttpGet] //update url?
+        public IActionResult GetSpyDuhMemberSkills(SpyDuhMember member)
+        {
+            if (member == null)
+                return NotFound("There was no matching spy in the database");
+
+            return (IActionResult)_spyDuhMembersRepository.GetMemberSkills(member);
+        }
         
     }
 }
