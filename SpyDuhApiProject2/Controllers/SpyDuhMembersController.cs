@@ -36,8 +36,8 @@ namespace SpyDuhApiProject2.Controllers
                 AboutMe = spy.AboutMe,
                 Skills = spy.Skills,
                 Services = spy.Services,
-                Friends = new List<Spy>(),
-                Enemies = new List<Spy>(),
+                Friends = new List<Guid>(),
+                Enemies = new List<Guid>(),
             };
             
             _spyDuhMembersRepository.Add(spyDuhMember);
