@@ -7,7 +7,7 @@ namespace SpyDuhApiProject2.Models
 {
     public class SpyDuhMember: Spy
     {
-        public List<SpyDuhMember> Friends { get; set; }
-        public List<SpyDuhMember> Enemies { get; set; }
+        public List<Spy> Friends { get; set; }
+        public List<Spy> Enemies { get; set; }
     }
 }
