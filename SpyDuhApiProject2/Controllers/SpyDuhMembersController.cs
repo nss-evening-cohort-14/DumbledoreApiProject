@@ -52,7 +52,7 @@ namespace SpyDuhApiProject2.Controllers
             return Ok(_spyDuhMembersRepository.GetAll());
         }
 
-        [HttpGet] //update url?
+        [HttpGet("/skills")] //update url?
         public IActionResult GetSpyDuhMemberSkills(SpyDuhMember member)
         {
             if (member == null)
@@ -61,6 +61,7 @@ namespace SpyDuhApiProject2.Controllers
             return Ok(_spyDuhMembersRepository.GetMemberSkills(member));
         }   
         
+        [HttpGet("/services")]
         public IActionResult GetSpyDuhMemberServices(SpyDuhMember member)
         {
             if (member == null)
