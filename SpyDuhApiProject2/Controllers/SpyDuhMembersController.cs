@@ -36,14 +36,20 @@ namespace SpyDuhApiProject2.Controllers
                 AboutMe = spy.AboutMe,
                 Skills = spy.Skills,
                 Services = spy.Services,
-                Friends = new List<SpyDuhMember>(),
-                Enemies = new List<SpyDuhMember>(),
+                Friends = new List<Spy>(),
+                Enemies = new List<Spy>(),
             };
             
             _spyDuhMembersRepository.Add(spyDuhMember);
 
             return Created($"/api/spyDuhMembers/{spy.Id}", spyDuhMember); 
 
+        }
+
+        [HttpGet]
+        public IActionResult GetAllSpyDuhMembers()
+        {
+            return Ok(_spyDuhMembersRepository.GetAll());
         }
 
         [HttpGet] //update url?
