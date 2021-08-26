@@ -74,5 +74,10 @@ namespace SpyDuhApiProject2.DataAccess
         {
             _spyDuhMembers.Add(spyDuhMember);
         }
+
+        internal IEnumerable<SpyDuhMember> GetMemberSkills(SpyDuhMember spyDuhMember)
+        {
+            return (IEnumerable<SpyDuhMember>)spyDuhMember.Skills;
+        }
     }
 }
