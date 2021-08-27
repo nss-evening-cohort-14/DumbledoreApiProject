@@ -36,8 +36,8 @@ namespace SpyDuhApiProject2.Controllers
                 AboutMe = spy.AboutMe,
                 Skills = spy.Skills,
                 Services = spy.Services,
-                Friends = new List<Spy>(),
-                Enemies = new List<Spy>(),
+                Friends = new List<Guid>(),
+                Enemies = new List<Guid>(),
             };
             
             _spyDuhMembersRepository.Add(spyDuhMember);
@@ -50,6 +50,49 @@ namespace SpyDuhApiProject2.Controllers
         public IActionResult GetAllSpyDuhMembers()
         {
             return Ok(_spyDuhMembersRepository.GetAll());
+        }
+
+        [HttpPatch("addFriend/{accountId}")]
+        public IActionResult AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
+        {
+            _spyDuhMembersRepository.AddFriendToSpyDuhAccount(accountId, friendId);
+            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedAccount);
+        }
+
+        [HttpPatch("removeFriend/{accountId}")]
+        public IActionResult RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
+        {
+            _spyDuhMembersRepository.RemoveFriendFromSpyDuhAccount(accountId, friendId);
+            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedAccount);
+        }
+
+        [HttpPatch("addEnemy/{accountId}")]
+        public IActionResult AddEnemyToSpyDuhAccount(Guid accountId, Guid enemyId)
+        {
+            _spyDuhMembersRepository.AddEnemyToSpyDuhAccount(accountId, enemyId);
+            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedAccount);
+        }
+
+        [HttpPatch("removeEnemy/{accountId}")]
+        public IActionResult RemoveEnemyFromSpyDuhAccount(Guid accountId, Guid enemyId)
+        {
+            _spyDuhMembersRepository.RemoveEnemyFromSpyDuhAccount(accountId, enemyId);
+            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedAccount);
+        }
+
+        [HttpGet("enemies/{accountId}")]
+        public IActionResult ShowEnemiesOfAccount(Guid accountId)
+        {
+            return Ok(_spyDuhMembersRepository.ShowAccountEnemies(accountId));
+        }
+        [HttpGet("friends/{accountId}")]
+        public IActionResult ShowFriendsOfAccount(Guid accountId)
+        {
+            return Ok(_spyDuhMembersRepository.ShowAccountFriends(accountId));
         }
 
         [HttpGet("skills")]

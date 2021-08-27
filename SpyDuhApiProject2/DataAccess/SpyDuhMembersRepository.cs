@@ -13,64 +13,33 @@ namespace SpyDuhApiProject2.DataAccess
             new SpyDuhMember
             {
                 Alias = "Harry",
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("e7c4af1e-c8d4-4998-a611-0b31cc62d312"),
                 AboutMe = "I'm super nosy so I became a spy.",
                 Skills = new List<string> { "Stealth", "Investigation", "camouflage" },
                 Services = new List<string> {"Breaking in to read people's diaries", "Infiltrating an organization"},
-                
-                // For right now, friends and enemies need to be spies instead of members. Otherwise, we need to includes friends and enemies
-                // inside the friends and enemies, and inside those etc. It's like the never ending russian dolls
-
-                Friends = new List<Spy>
+                Friends = new List<Guid>
                 {
-                    new Spy
-                    {
-                        Alias = "Barry",
-                        Id = Guid.NewGuid(),
-                        AboutMe = "Becoming a spy sounded cool.",
-                        Skills = new List<string> { "Stealth", "Impersonation", "camouflage" },
-                        Services = new List<string> {"Impersonating high-profile people", "Breaking into safes"}
-                    }
+                    Guid.Parse("0a0498c4-6d99-4de8-b687-127a0b89bb2a")
                 },
-                Enemies = new List<Spy>{
-                     new Spy
-                    {
-                        Alias = "Carry",
-                        Id = Guid.NewGuid(),
-                        AboutMe = "It's fun to do hood rat stuff with your friends.",
-                        Skills = new List<string> { "Stealth", "Armed Robbery", "GTA" },
-                        Services = new List<string> {"Burning your grandmother's cookies", "Infiltrating a book club"}
-                    }
+                Enemies = new List<Guid>
+                {
+                    Guid.Parse("14d2d829-a609-4fe4-82ad-5dab2444e274")
                 }
             },
              new SpyDuhMember
             {
                 Alias = "Larry",
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("11692ac4-9d81-4be5-8fd3-5154b1579a94"),
                 AboutMe = "I became a spy to take down evil corporations.",
                 Skills = new List<string> { "Hacking", "Investigation", "Impersonation" },
                 Services = new List<string> {"Breaking in to read people's diaries", "Hacking into a corporation's sensitive data"},
-                Friends = new List<Spy>
+                Friends = new List<Guid>
                 {
-                    new Spy
-                    {
-                        Alias = "Carry",
-                        Id = Guid.NewGuid(),
-                        AboutMe = "It's fun to do hood rat stuff with your friends.",
-                        Skills = new List<string> { "Stealth", "Armed Robbery", "GTA" },
-                        Services = new List<string> {"Burning your grandmother's cookies", "Infiltrating a book club"}
-                    }
+                    Guid.Parse("14d2d829-a609-4fe4-82ad-5dab2444e274")
                 },
-                Enemies = new List<Spy>{
-
-                     new Spy
-                    {
-                        Alias = "Barry",
-                        Id = Guid.NewGuid(),
-                        AboutMe = "Becoming a spy sounded cool.",
-                        Skills = new List<string> { "Stealth", "Impersonation", "camouflage" },
-                        Services = new List<string> {"Impersonating high-profile people", "Breaking into safes"}
-                    }
+                Enemies = new List<Guid>
+                {
+                    Guid.Parse("0a0498c4-6d99-4de8-b687-127a0b89bb2a")
                 }
              }
         };
@@ -83,6 +52,49 @@ namespace SpyDuhApiProject2.DataAccess
         internal IEnumerable<SpyDuhMember> GetAll()
         {
             return _spyDuhMembers;
+        }
+        internal SpyDuhMember GetById(Guid spyDuhId)
+        {
+            return _spyDuhMembers.FirstOrDefault(spyDuhMember => spyDuhMember.Id == spyDuhId);
+        }
+
+        internal void  AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
+        {
+            var repo = new SpyDuhMembersRepository();
+            var spyDuhMember = repo.GetById(accountId);
+            spyDuhMember.Friends.Add(friendId);
+        }
+        internal void RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
+        {
+            var repo = new SpyDuhMembersRepository();
+            var spyDuhMember = repo.GetById(accountId);
+            spyDuhMember.Friends.Remove(friendId);
+        }
+        internal void AddEnemyToSpyDuhAccount(Guid accountId, Guid enemyId)
+        {
+            var repo = new SpyDuhMembersRepository();
+            var spyDuhMember = repo.GetById(accountId);
+            spyDuhMember.Enemies.Add(enemyId);
+        }
+        internal void RemoveEnemyFromSpyDuhAccount(Guid accountId, Guid enemyId)
+        {
+            var repo = new SpyDuhMembersRepository();
+            var spyDuhMember = repo.GetById(accountId);
+            spyDuhMember.Enemies.Remove(enemyId);
+        }
+
+        internal List<Guid> ShowAccountEnemies(Guid accountId)
+        {
+            var repo = new SpyDuhMembersRepository();
+            var spyDuhMember = repo.GetById(accountId);
+            return spyDuhMember.Enemies;
+        }
+
+        internal List<Guid> ShowAccountFriends(Guid accountId)
+        {
+            var repo = new SpyDuhMembersRepository();
+            var spyDuhMember = repo.GetById(accountId);
+            return spyDuhMember.Friends;
         }
 
         internal List<string> GetMemberSkills(Guid memberId)
