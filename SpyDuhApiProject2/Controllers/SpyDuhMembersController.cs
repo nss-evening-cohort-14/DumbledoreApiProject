@@ -52,23 +52,20 @@ namespace SpyDuhApiProject2.Controllers
             return Ok(_spyDuhMembersRepository.GetAll());
         }
 
-        [HttpGet("/skills")] //update url?
-        public IActionResult GetSpyDuhMemberSkills(SpyDuhMember member)
+        [HttpGet("skills")]
+        public IActionResult GetSpyDuhMemberSkills(Guid memberId)
         {
-            if (member == null)
-                return NotFound("There are no matching skills for this SpyDuh Member.");
-
-            return Ok(_spyDuhMembersRepository.GetMemberSkills(member));
+            return Ok(_spyDuhMembersRepository.GetMemberSkills(memberId));
         }   
         
-        [HttpGet("/services")]
-        public IActionResult GetSpyDuhMemberServices(SpyDuhMember member)
-        {
-            if (member == null)
-                return NotFound("There are no matching services for this SpyDuh Member.");
+        //[HttpGet("/services")]
+        //public IActionResult GetSpyDuhMemberServices(SpyDuhMember member)
+        //{
+        //    if (member == null)
+        //        return NotFound("There are no matching services for this SpyDuh Member.");
 
-            return Ok(_spyDuhMembersRepository.GetMemberServices(member));
-        }
+        //    return Ok(_spyDuhMembersRepository.GetMemberServices(member));
+        //}
         
     }
 }
