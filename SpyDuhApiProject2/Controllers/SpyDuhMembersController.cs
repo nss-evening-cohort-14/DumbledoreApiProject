@@ -56,16 +56,13 @@ namespace SpyDuhApiProject2.Controllers
         public IActionResult GetSpyDuhMemberSkills(Guid memberId)
         {
             return Ok(_spyDuhMembersRepository.GetMemberSkills(memberId));
-        }   
-        
-        //[HttpGet("/services")]
-        //public IActionResult GetSpyDuhMemberServices(SpyDuhMember member)
-        //{
-        //    if (member == null)
-        //        return NotFound("There are no matching services for this SpyDuh Member.");
+        }
 
-        //    return Ok(_spyDuhMembersRepository.GetMemberServices(member));
-        //}
-        
+        [HttpGet("services")]
+        public IActionResult GetSpyDubMemberServices(Guid memberId)
+        {
+            return Ok(_spyDuhMembersRepository.GetMemberServices(memberId));
+        }
+
     }
 }

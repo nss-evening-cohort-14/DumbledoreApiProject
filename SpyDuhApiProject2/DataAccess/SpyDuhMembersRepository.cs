@@ -75,11 +75,6 @@ namespace SpyDuhApiProject2.DataAccess
              }
         };
 
-        //internal SpyDuhMember GetMemberById(Guid memberId)
-        //{
-        //    return _spyDuhMembers.FirstOrDefault(member => member.Id == memberId);
-        //}
-
         internal void Add(SpyDuhMember spyDuhMember)
         {
             _spyDuhMembers.Add(spyDuhMember);
@@ -96,9 +91,10 @@ namespace SpyDuhApiProject2.DataAccess
             return singleMember.Skills;
         }
 
-        //internal IEnumerable<SpyDuhMember> GetMemberServices(SpyDuhMember spyDuhMember)
-        //{
-        //    return (IEnumerable<SpyDuhMember>)spyDuhMember.Services;
-        //}
+        internal List<string> GetMemberServices(Guid memberId)
+        {
+            var singleMember = _spyDuhMembers.FirstOrDefault(member => member.Id == memberId);
+            return singleMember.Services;
+        }
     }
 }
