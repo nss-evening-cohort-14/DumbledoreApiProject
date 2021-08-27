@@ -57,7 +57,7 @@ namespace SpyDuhApiProject2.DataAccess
             return _spyDuhMembers.FirstOrDefault(spyDuhMember => spyDuhMember.Id == spyDuhId);
         }
 
-        internal void AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
+        internal void  AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
         {
             var repo = new SpyDuhMembersRepository();
             var spyDuhMember = repo.GetById(accountId);

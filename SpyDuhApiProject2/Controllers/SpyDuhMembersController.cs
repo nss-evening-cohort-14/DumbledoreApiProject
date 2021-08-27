@@ -51,6 +51,44 @@ namespace SpyDuhApiProject2.Controllers
         {
             return Ok(_spyDuhMembersRepository.GetAll());
         }
-        
+
+        [HttpPatch("addFriend/{accountId}")]
+        public IActionResult AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
+        {
+            _spyDuhMembersRepository.AddFriendToSpyDuhAccount(accountId, friendId);
+            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedAccount);
+        }
+
+        [HttpPatch("removeFriend/{accountId}")]
+        public IActionResult RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
+        {
+            _spyDuhMembersRepository.RemoveEnemyFromSpyDuhAccount(accountId, friendId);
+            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedAccount);
+        }
+
+        [HttpPatch("addEnemy/{accountId}")]
+        public IActionResult AddEnemyToSpyDuhAccount(Guid accountId, Guid enemyId)
+        {
+            _spyDuhMembersRepository.AddEnemyToSpyDuhAccount(accountId, enemyId);
+            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedAccount);
+        }
+
+        [HttpPatch("removeEnemy/{accountId}")]
+        public IActionResult RemoveEnemyFromSpyDuhAccount(Guid accountId, Guid enemyId)
+        {
+            _spyDuhMembersRepository.RemoveEnemyFromSpyDuhAccount(accountId, enemyId);
+            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedAccount);
+        }
+
+        [HttpGet("enemies/{accountId}")]
+        public IActionResult ShowEnemiesOfAccount(Guid accountId)
+        {
+            return Ok(_spyDuhMembersRepository.ShowAccountEnemies(accountId));
+        }
+
     }
 }
