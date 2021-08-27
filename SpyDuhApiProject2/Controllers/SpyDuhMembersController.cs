@@ -63,7 +63,7 @@ namespace SpyDuhApiProject2.Controllers
         [HttpPatch("removeFriend/{accountId}")]
         public IActionResult RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
         {
-            _spyDuhMembersRepository.RemoveEnemyFromSpyDuhAccount(accountId, friendId);
+            _spyDuhMembersRepository.RemoveFriendFromSpyDuhAccount(accountId, friendId);
             var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
             return Ok(updatedAccount);
         }
@@ -89,6 +89,10 @@ namespace SpyDuhApiProject2.Controllers
         {
             return Ok(_spyDuhMembersRepository.ShowAccountEnemies(accountId));
         }
-
+        [HttpGet("friends/{accountId}")]
+        public IActionResult ShowFriendsOfAccount(Guid accountId)
+        {
+            return Ok(_spyDuhMembersRepository.ShowAccountFriends(accountId));
+        }
     }
 }
