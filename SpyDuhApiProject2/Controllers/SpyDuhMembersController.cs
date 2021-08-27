@@ -51,6 +51,17 @@ namespace SpyDuhApiProject2.Controllers
         {
             return Ok(_spyDuhMembersRepository.GetAll());
         }
+
+        [HttpGet("member")]
+        public IActionResult GetMembersBySkill(string skill)
+        {
+            var foundBySkill = _spyDuhMembersRepository.FindBySkill(skill);
+
+            if (foundBySkill == null)
+                return NotFound("No members possess this skill.");
+
+            return Ok(foundBySkill);      
+        }
         
     }
 }

@@ -28,7 +28,7 @@ namespace SpyDuhApiProject2.DataAccess
                         Alias = "Barry",
                         Id = Guid.NewGuid(),
                         AboutMe = "Becoming a spy sounded cool.",
-                        Skills = new List<string> { "Stealth", "Impersonation", "camouflage" },
+                        Skills = new List<string> { "stealth", "impersonation", "camouflage" },
                         Services = new List<string> {"Impersonating high-profile people", "Breaking into safes"}
                     }
                 },
@@ -38,7 +38,7 @@ namespace SpyDuhApiProject2.DataAccess
                         Alias = "Carry",
                         Id = Guid.NewGuid(),
                         AboutMe = "It's fun to do hood rat stuff with your friends.",
-                        Skills = new List<string> { "Stealth", "Armed Robbery", "GTA" },
+                        Skills = new List<string> { "stealth", "armed Robbery", "gta" },
                         Services = new List<string> {"Burning your grandmother's cookies", "Infiltrating a book club"}
                     }
                 }
@@ -48,7 +48,7 @@ namespace SpyDuhApiProject2.DataAccess
                 Alias = "Larry",
                 Id = Guid.NewGuid(),
                 AboutMe = "I became a spy to take down evil corporations.",
-                Skills = new List<string> { "Hacking", "Investigation", "Impersonation" },
+                Skills = new List<string> { "hacking", "investigation", "impersonation" },
                 Services = new List<string> {"Breaking in to read people's diaries", "Hacking into a corporation's sensitive data"},
                 Friends = new List<Spy>
                 {
@@ -57,7 +57,7 @@ namespace SpyDuhApiProject2.DataAccess
                         Alias = "Carry",
                         Id = Guid.NewGuid(),
                         AboutMe = "It's fun to do hood rat stuff with your friends.",
-                        Skills = new List<string> { "Stealth", "Armed Robbery", "GTA" },
+                        Skills = new List<string> { "stealth", "armed Robbery", "gta" },
                         Services = new List<string> {"Burning your grandmother's cookies", "Infiltrating a book club"}
                     }
                 },
@@ -68,7 +68,7 @@ namespace SpyDuhApiProject2.DataAccess
                         Alias = "Barry",
                         Id = Guid.NewGuid(),
                         AboutMe = "Becoming a spy sounded cool.",
-                        Skills = new List<string> { "Stealth", "Impersonation", "camouflage" },
+                        Skills = new List<string> { "Stealth", "impersonation", "camouflage" },
                         Services = new List<string> {"Impersonating high-profile people", "Breaking into safes"}
                     }
                 }
@@ -82,6 +82,19 @@ namespace SpyDuhApiProject2.DataAccess
         internal IEnumerable<SpyDuhMember> GetAll()
         {
             return _spyDuhMembers;
+        }
+
+        internal IEnumerable<SpyDuhMember> FindBySkill(string skill)
+        {
+            var foundBySkill = _spyDuhMembers.Where(member => member.Skills.ConvertAll(skill => skill.ToLower()).Contains(skill.ToLower()));
+            if (foundBySkill == null)
+            {
+                return null;
+            }
+            else
+            {
+                return foundBySkill;
+            }
         }
     }
 }
