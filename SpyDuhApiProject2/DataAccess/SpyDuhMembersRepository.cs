@@ -62,21 +62,31 @@ namespace SpyDuhApiProject2.DataAccess
             var repo = new SpyDuhMembersRepository();
             var spyDuhMember = repo.GetById(accountId);
             spyDuhMember.Friends.Add(friendId);
-        }internal void RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
+        }
+        internal void RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
         {
             var repo = new SpyDuhMembersRepository();
             var spyDuhMember = repo.GetById(accountId);
             spyDuhMember.Friends.Remove(friendId);
-        }internal void AddEnemyToSpyDuhAccount(Guid accountId, Guid friendId)
+        }
+        internal void AddEnemyToSpyDuhAccount(Guid accountId, Guid friendId)
         {
             var repo = new SpyDuhMembersRepository();
             var spyDuhMember = repo.GetById(accountId);
             spyDuhMember.Enemies.Add(friendId);
-        }internal void RemoveEnemyFromSpyDuhAccount(Guid accountId, Guid friendId)
+        }
+        internal void RemoveEnemyFromSpyDuhAccount(Guid accountId, Guid friendId)
         {
             var repo = new SpyDuhMembersRepository();
             var spyDuhMember = repo.GetById(accountId);
             spyDuhMember.Enemies.Remove(friendId);
+        }
+
+        internal List<Guid> ShowAccountEnemies(Guid accountId)
+        {
+            var repo = new SpyDuhMembersRepository();
+            var spyDuhMember = repo.GetById(accountId);
+            return spyDuhMember.Enemies;
         }
     }
 }
