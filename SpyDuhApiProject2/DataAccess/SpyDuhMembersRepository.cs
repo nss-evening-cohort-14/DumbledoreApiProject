@@ -57,14 +57,7 @@ namespace SpyDuhApiProject2.DataAccess
         internal IEnumerable<SpyDuhMember> FindBySkill(string skill)
         {
             var foundBySkill = _spyDuhMembers.Where(member => member.Skills.ConvertAll(skill => skill.ToLower()).Contains(skill.ToLower()));
-            if (foundBySkill == null)
-            {
-                return null;
-            }
-            else
-            {
-                return foundBySkill;
-            }
+            return foundBySkill;
         }
         internal SpyDuhMember GetById(Guid spyDuhId)
         {
