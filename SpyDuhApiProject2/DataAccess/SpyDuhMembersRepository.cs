@@ -43,6 +43,7 @@ namespace SpyDuhApiProject2.DataAccess
                 }
              }
         };
+
         internal void Add(SpyDuhMember spyDuhMember)
         {
             _spyDuhMembers.Add(spyDuhMember);
@@ -107,6 +108,18 @@ namespace SpyDuhApiProject2.DataAccess
             var repo = new SpyDuhMembersRepository();
             var spyDuhMember = repo.GetById(accountId);
             return spyDuhMember.Friends;
+        }
+
+        internal List<string> GetMemberSkills(Guid accountId)
+        {
+            var singleMember = _spyDuhMembers.FirstOrDefault(member => member.Id == accountId);
+            return singleMember.Skills;
+        }
+
+        internal List<string> GetMemberServices(Guid accountId)
+        {
+            var singleMember = _spyDuhMembers.FirstOrDefault(member => member.Id == accountId);
+            return singleMember.Services;
         }
     }
 }

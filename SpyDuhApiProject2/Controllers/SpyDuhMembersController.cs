@@ -106,5 +106,18 @@ namespace SpyDuhApiProject2.Controllers
         {
             return Ok(_spyDuhMembersRepository.ShowAccountFriends(accountId));
         }
+
+        [HttpGet("skills")]
+        public IActionResult GetSpyDuhMemberSkills(Guid accountId)
+        {
+            return Ok(_spyDuhMembersRepository.GetMemberSkills(accountId));
+        }
+
+        [HttpGet("services")]
+        public IActionResult GetSpyDubMemberServices(Guid accountId)
+        {
+            return Ok(_spyDuhMembersRepository.GetMemberServices(accountId));
+        }
+
     }
 }
