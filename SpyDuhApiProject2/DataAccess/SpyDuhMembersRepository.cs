@@ -97,15 +97,15 @@ namespace SpyDuhApiProject2.DataAccess
             return spyDuhMember.Friends;
         }
 
-        internal List<string> GetMemberSkills(Guid memberId)
+        internal List<string> GetMemberSkills(Guid accountId)
         {
-            var singleMember = _spyDuhMembers.FirstOrDefault(member => member.Id == memberId);
+            var singleMember = _spyDuhMembers.FirstOrDefault(member => member.Id == accountId);
             return singleMember.Skills;
         }
 
-        internal List<string> GetMemberServices(Guid memberId)
+        internal List<string> GetMemberServices(Guid accountId)
         {
-            var singleMember = _spyDuhMembers.FirstOrDefault(member => member.Id == memberId);
+            var singleMember = _spyDuhMembers.FirstOrDefault(member => member.Id == accountId);
             return singleMember.Services;
         }
     }

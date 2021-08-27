@@ -96,15 +96,15 @@ namespace SpyDuhApiProject2.Controllers
         }
 
         [HttpGet("skills")]
-        public IActionResult GetSpyDuhMemberSkills(Guid memberId)
+        public IActionResult GetSpyDuhMemberSkills(Guid accountId)
         {
-            return Ok(_spyDuhMembersRepository.GetMemberSkills(memberId));
+            return Ok(_spyDuhMembersRepository.GetMemberSkills(accountId));
         }
 
         [HttpGet("services")]
-        public IActionResult GetSpyDubMemberServices(Guid memberId)
+        public IActionResult GetSpyDubMemberServices(Guid accountId)
         {
-            return Ok(_spyDuhMembersRepository.GetMemberServices(memberId));
+            return Ok(_spyDuhMembersRepository.GetMemberServices(accountId));
         }
 
     }
