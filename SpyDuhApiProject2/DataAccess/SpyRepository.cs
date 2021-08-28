@@ -34,6 +34,30 @@ namespace SpyDuhApiProject2.DataAccess
                 Id = Guid.Parse("14d2d829-a609-4fe4-82ad-5dab2444e274"),
                 AboutMe = "It's fun to do hood rat stuff with your friends.",
             },
+                 new Spy
+            {
+                Alias = "Perry",
+                Id = Guid.Parse("ee1eac1c-9b53-45df-8b8a-ceb7c34445a4"),
+                AboutMe = "Friends ended so I needed a new gig.",
+            },
+             new Spy
+            {
+                Alias = "Ari",
+                Id = Guid.Parse("654815b0-7101-43ac-af43-2f5814c40dba"),
+                AboutMe = "I signed up for this service because my Mom said so.",
+            },
+              new Spy
+            {
+                Alias = "Merry",
+                Id = Guid.Parse("e664d74b-32b6-4fae-8a8c-f97c7cf3da9c"),
+                AboutMe = "I have no sense of self anymore after 20 years in the spy business",
+            },
+               new Spy
+            {
+                Alias = "Sherry",
+                Id = Guid.Parse("b49f520c-e9d0-4a0b-9f46-4bf798a21f0d"),
+                AboutMe = "I enjoy baked goods and murder.",
+            },
         };
 
         internal Spy GetById(Guid spyId)
