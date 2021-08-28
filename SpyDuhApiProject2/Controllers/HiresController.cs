@@ -25,6 +25,9 @@ namespace SpyDuhApiProject2.Controllers
         {
             var findSpy = _memberRepo.FindByService(service);
 
+            if (findSpy == null)
+                return NotFound("No spies provide this service.");
+
             var hire = new Hire
             {
                 EmployerId = employerId,
