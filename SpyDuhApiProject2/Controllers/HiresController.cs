@@ -34,7 +34,8 @@ namespace SpyDuhApiProject2.Controllers
                 HireeId = findSpy.Id,
                 HireeAlias = findSpy.Alias,
                 Price = price,
-                Service = service
+                Service = service,
+                HireDate = DateTime.Now
             };
 
             _hireRepo.Add(hire);
