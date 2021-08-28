@@ -23,7 +23,13 @@ namespace SpyDuhApiProject2.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSpyDuhMember(CreateSpyDuhMemberCommand command)
+        public IActionResult CreateSpyDuhMember(
+            CreateSpyDuhMemberCommand command,
+            List<string> skills,
+            List<string> services,
+            List<Guid> friends,
+            List<Guid> enemies,
+            )
         {
             var spy = _spiesRepository.GetById(command.SpyId);
 
@@ -34,10 +40,10 @@ namespace SpyDuhApiProject2.Controllers
                 Alias = spy.Alias,
                 Id = spy.Id,
                 AboutMe = spy.AboutMe,
-                Skills = spy.Skills,
-                Services = spy.Services,
-                Friends = new List<Guid>(),
-                Enemies = new List<Guid>(),
+                Skills = skills,
+                Services = services,
+                Friends = friends,
+                Enemies = enemies,
             };
             
             _spyDuhMembersRepository.Add(spyDuhMember);
