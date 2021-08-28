@@ -21,20 +21,22 @@ namespace SpyDuhApiProject2.Controllers
             _memberRepo = new SpyDuhMembersRepository();
         }
         [HttpPost]
-        public IActionResult HireASpy(string service, Guid employerId, double price) 
+        public IActionResult HireASpy(HireASpyCommand command) 
         {
-            var findSpy = _memberRepo.FindByService(service);
+            var findSpy = _memberRepo.FindByService(command.Service);
 
             if (findSpy == null)
                 return NotFound("No spies provide this service.");
 
             var hire = new Hire
             {
-                EmployerId = employerId,
+                EmployerId = command.EmployerId,
                 HireeId = findSpy.Id,
                 HireeAlias = findSpy.Alias,
-                Price = price,
-                Service = service
+                Price = command.Price,
+                Service = command.Service,
+                HireDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(command.days)
             };
 
             _hireRepo.Add(hire);

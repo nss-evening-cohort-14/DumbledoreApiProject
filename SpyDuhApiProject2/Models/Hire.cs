@@ -13,5 +13,7 @@ namespace SpyDuhApiProject2.Models
         public string HireeAlias { get; set; }
         public double Price { get; set; }
         public string Service { get; set; }
+        public DateTime HireDate { get; set; }
+        public DateTime DueDate { get; set; }
     }
 }
