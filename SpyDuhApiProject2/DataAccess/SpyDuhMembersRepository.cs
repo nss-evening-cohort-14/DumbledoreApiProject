@@ -121,5 +121,33 @@ namespace SpyDuhApiProject2.DataAccess
             var singleMember = _spyDuhMembers.FirstOrDefault(member => member.Id == accountId);
             return singleMember.Services;
         }
+
+        internal List<string> AddSkill(Guid accountId, string newSkill)
+        {
+            var member = _spyDuhMembers.FirstOrDefault(member => member.Id == accountId);
+            member.Skills.Add(newSkill);
+            return (member.Skills);
+        }
+
+        internal List<string> RemoveSkill(Guid accountId, string skill)
+        {
+            var member = _spyDuhMembers.FirstOrDefault(member => member.Id == accountId);
+            member.Skills.Remove(skill);
+            return (member.Skills);
+        }
+
+        internal List<string> AddService(Guid accountId, string newService)
+        {
+            var member = _spyDuhMembers.FirstOrDefault(member => member.Id == accountId);
+            member.Services.Add(newService);
+            return (member.Services);
+        }
+
+        internal List<string> RemoveService(Guid accountId, string service)
+        {
+            var member = _spyDuhMembers.FirstOrDefault(member => member.Id == accountId);
+            member.Services.Remove(service);
+            return (member.Services);
+        }
     }
 }
