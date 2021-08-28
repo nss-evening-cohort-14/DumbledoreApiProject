@@ -31,13 +31,13 @@ namespace SpyDuhApiProject2.Controllers
                 return NotFound("There was no matching spy in the database");
             var spyDuhMember = new SpyDuhMember 
             {
-                Alias = spy.Alias,
                 Id = spy.Id,
+                Alias = spy.Alias,
                 AboutMe = spy.AboutMe,
-                Skills = spy.Skills,
-                Services = spy.Services,
-                Friends = new List<Guid>(),
-                Enemies = new List<Guid>(),
+                Skills = command.Skills,
+                Services = command.Services,
+                Friends = command.Friends,
+                Enemies = command.Enemies,
             };
             
             _spyDuhMembersRepository.Add(spyDuhMember);
@@ -51,6 +51,18 @@ namespace SpyDuhApiProject2.Controllers
         {
             return Ok(_spyDuhMembersRepository.GetAll());
         }
+
+        [HttpGet("membersBySkill")]
+        public IActionResult GetMembersBySkill(string skill)
+        {
+            var foundBySkill = _spyDuhMembersRepository.FindBySkill(skill);
+
+            if (foundBySkill.Any() == false)
+                return NotFound("No members possess this skill.");
+
+            return Ok(foundBySkill);      
+        }
+        
 
         [HttpPatch("addFriend/{accountId}")]
         public IActionResult AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)

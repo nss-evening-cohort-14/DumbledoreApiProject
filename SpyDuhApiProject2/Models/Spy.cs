@@ -10,7 +10,5 @@ namespace SpyDuhApiProject2.Models
         public string Alias { get; set; }
         public Guid Id { get; set; }
         public string AboutMe { get; set; }
-        public List <string> Skills { get; set; }
-        public List <string> Services { get; set; }
     }
 }

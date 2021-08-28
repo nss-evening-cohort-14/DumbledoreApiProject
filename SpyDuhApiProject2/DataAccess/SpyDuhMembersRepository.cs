@@ -31,7 +31,7 @@ namespace SpyDuhApiProject2.DataAccess
                 Alias = "Larry",
                 Id = Guid.Parse("11692ac4-9d81-4be5-8fd3-5154b1579a94"),
                 AboutMe = "I became a spy to take down evil corporations.",
-                Skills = new List<string> { "Hacking", "Investigation", "Impersonation" },
+                Skills = new List<string> { "hacking", "investigation", "impersonation" },
                 Services = new List<string> {"Breaking in to read people's diaries", "Hacking into a corporation's sensitive data"},
                 Friends = new List<Guid>
                 {
@@ -53,6 +53,19 @@ namespace SpyDuhApiProject2.DataAccess
         {
             return _spyDuhMembers;
         }
+
+        internal IEnumerable<SpyDuhMember> FindBySkill(string skill)
+        {
+            var foundBySkill = _spyDuhMembers.Where(member => member.Skills.ConvertAll(skill => skill.ToLower()).Contains(skill.ToLower()));
+            return foundBySkill;
+        }
+
+        internal SpyDuhMember FindByService(string service)
+        {
+            var foundByService = _spyDuhMembers.FirstOrDefault(member => member.Services.ConvertAll(service => service.ToLower()).Contains(service.ToLower()));
+            return foundByService;
+        }
+
         internal SpyDuhMember GetById(Guid spyDuhId)
         {
             return _spyDuhMembers.FirstOrDefault(spyDuhMember => spyDuhMember.Id == spyDuhId);
