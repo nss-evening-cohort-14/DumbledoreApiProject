@@ -10,6 +10,7 @@ namespace SpyDuhApiProject2.Models
         public Guid Id { get; set; }
         public Guid EmployerId { get; set; }
         public Guid HireeId { get; set; }
+        public string HireeAlias { get; set; }
         public double Price { get; set; }
         public string Service { get; set; }
     }

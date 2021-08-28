@@ -29,6 +29,7 @@ namespace SpyDuhApiProject2.Controllers
             {
                 EmployerId = employerId,
                 HireeId = findSpy.Id,
+                HireeAlias = findSpy.Alias,
                 Price = price,
                 Service = service
             };
