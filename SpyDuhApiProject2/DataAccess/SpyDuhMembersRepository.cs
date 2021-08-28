@@ -59,6 +59,13 @@ namespace SpyDuhApiProject2.DataAccess
             var foundBySkill = _spyDuhMembers.Where(member => member.Skills.ConvertAll(skill => skill.ToLower()).Contains(skill.ToLower()));
             return foundBySkill;
         }
+
+        internal SpyDuhMember FindByService(string service)
+        {
+            var foundByService = _spyDuhMembers.FirstOrDefault(member => member.Services.ConvertAll(service => service.ToLower()).Contains(service.ToLower()));
+            return foundByService;
+        }
+
         internal SpyDuhMember GetById(Guid spyDuhId)
         {
             return _spyDuhMembers.FirstOrDefault(spyDuhMember => spyDuhMember.Id == spyDuhId);
