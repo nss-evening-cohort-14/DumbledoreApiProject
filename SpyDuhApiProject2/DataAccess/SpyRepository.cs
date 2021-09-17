@@ -1,4 +1,5 @@
-﻿using SpyDuhApiProject2.Models;
+﻿using Microsoft.Data.SqlClient;
+using SpyDuhApiProject2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace SpyDuhApiProject2.DataAccess
 {
     public class SpyRepository
     {
+        const string _connectionString = "Server=localhost;Database=SpyDuh;Trusted_Connection=True;";
+
         static List<Spy> _spies = new List<Spy>
         {
             new Spy
@@ -62,7 +65,28 @@ namespace SpyDuhApiProject2.DataAccess
 
         internal Spy GetById(Guid spyId)
         {
-            return _spies.FirstOrDefault(spy => spy.Id == spyId);
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"select *
+                                from Spies
+                                where Id = @id";
+
+            cmd.Parameters.AddWithValue("id", spyId);
+
+            var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                var spy = new Spy();
+                spy.Alias = reader["Alias"].ToString();
+                spy.AboutMe = reader["AboutMe"].ToString();
+                spy.Id = (Guid) reader["Id"];
+
+                return spy;
+            }
+            return null;
         }
 
         internal IEnumerable<Spy> GetAll()
