@@ -23,18 +23,5 @@ namespace SpyDuhApiProject2.Controllers
         {
             return Ok(_spyRepo.GetAll());
         }
-
-        [HttpGet("{id}")]
-        public IActionResult GetSpyById(Guid id)
-        {
-            var spy = _spyRepo.GetById(id);
-
-            if (spy == null)
-            {
-                return NotFound("There are no matching spies in the database");
-            }
-
-            return Ok(spy);
-        }
     }
 }
