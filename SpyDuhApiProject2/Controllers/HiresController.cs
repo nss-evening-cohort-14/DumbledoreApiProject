@@ -20,27 +20,27 @@ namespace SpyDuhApiProject2.Controllers
             _hireRepo = new HireRepository();
             _memberRepo = new SpyDuhMembersRepository();
         }
-        [HttpPost]
-        public IActionResult HireASpy(HireASpyCommand command) 
-        {
-            var findSpy = _memberRepo.FindByService(command.Service);
+        //[HttpPost]
+        //public IActionResult HireASpy(HireASpyCommand command) 
+        //{
+        //    var findSpy = _memberRepo.FindByService(command.Service);
 
-            if (findSpy == null)
-                return NotFound("No spies provide this service.");
+        //    if (findSpy == null)
+        //        return NotFound("No spies provide this service.");
 
-            var hire = new Hire
-            {
-                EmployerId = command.EmployerId,
-                HireeId = findSpy.Id,
-                HireeAlias = findSpy.Alias,
-                Price = command.Price,
-                Service = command.Service,
-                HireDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(command.days)
-            };
+        //    var hire = new Hire
+        //    {
+        //        EmployerId = command.EmployerId,
+        //        HireeId = findSpy.Id,
+        //        HireeAlias = findSpy.Alias,
+        //        Price = command.Price,
+        //        Service = command.Service,
+        //        HireDate = DateTime.Now,
+        //        DueDate = DateTime.Now.AddDays(command.days)
+        //    };
 
-            _hireRepo.Add(hire);
-            return Created($"/api/hires/{hire.Id}", hire);
-        }
+        //    _hireRepo.Add(hire);
+        //    return Created($"/api/hires/{hire.Id}", hire);
+        //}
     }
 }

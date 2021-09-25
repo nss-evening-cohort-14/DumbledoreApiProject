@@ -10,7 +10,7 @@ namespace SpyDuhApiProject2.DataAccess
     public class SpyRepository
     {
 
-        const string _connectionString = "Server=localhost; Database=SpyDuh; Trusted_Connection=true";
+        const string _connectionString = "Server=localhost; Database=SpyDuh; Trusted_Connection=true;";
         internal Spy GetById(Guid spyId)
         {
             using var connection = new SqlConnection(_connectionString);
