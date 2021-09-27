@@ -59,12 +59,33 @@ namespace SpyDuhApiProject2.DataAccess
             command.Parameters.AddWithValue("Id", newSpyDuhMember.Id);
             command.Parameters.AddWithValue("Alias", newSpyDuhMember.Alias);
             command.Parameters.AddWithValue("AboutMe", newSpyDuhMember.AboutMe);
+
+            var newId = (Guid)command.ExecuteScalar();
+            newSpyDuhMember.Id = newId;
           
         }
 
         internal IEnumerable<SpyDuhMember> GetAll()
         {
-            return _spyDuhMembers;
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+
+            var command = connection.CreateCommand();
+            command.CommandText = @"select * 
+                                    from SpyDuhMembers";
+
+            var reader = command.ExecuteReader();
+
+            var spyDuhMembers = new List<SpyDuhMember>();
+
+            while (reader.Read())
+            {
+                var spyDuhMember = MapFromReader(reader);
+
+                spyDuhMembers.Add(spyDuhMember);
+            }
+
+            return spyDuhMembers;
         }
 
         //internal IEnumerable<SpyDuhMember> FindBySkill(string skill)
@@ -81,15 +102,40 @@ namespace SpyDuhApiProject2.DataAccess
 
         internal SpyDuhMember GetById(Guid spyDuhId)
         {
-            return _spyDuhMembers.FirstOrDefault(spyDuhMember => spyDuhMember.Id == spyDuhId);
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+
+            var command = connection.CreateCommand();
+            command.CommandText = @"Select * 
+                                    From SpyDuhMembers 
+                                    where Id = @id";
+            command.Parameters.AddWithValue("id", spyDuhId);
+
+            var reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                return MapFromReader(reader);
+            }
+            return null;
         }
 
-        //internal void  AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
-        //{
-        //    var repo = new SpyDuhMembersRepository();
-        //    var spyDuhMember = repo.GetById(accountId);
-        //    spyDuhMember.Friends.Add(friendId);
-        //}
+        internal void AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+
+            var command = connection.CreateCommand();
+            command.CommandText = @"update SpyDuhMembers
+                                    Set FriendsId = @FriendsId
+                                    where Id = @Id";
+
+            command.Parameters.AddWithValue("FriendsId", friendId);
+            command.Parameters.AddWithValue("Id", accountId);
+
+            //var repo = new SpyDuhMembersRepository();
+            //var spyDuhMember = repo.GetById(accountId);
+            //spyDuhMember.Friends.Add(friendId);
+        }
         //internal void RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
         //{
         //    var repo = new SpyDuhMembersRepository();
@@ -166,13 +212,14 @@ namespace SpyDuhApiProject2.DataAccess
         SpyDuhMember MapFromReader(SqlDataReader reader)
         {
             var spyDuhMember = new SpyDuhMember();
+
             spyDuhMember.Id = reader.GetGuid(0);
             spyDuhMember.Alias = reader["Alias"].ToString();
             spyDuhMember.AboutMe = reader["AboutMe"].ToString();
-            spyDuhMember.Skills = reader.GetGuid(3);
-            spyDuhMember.Services = reader.GetGuid(4);
-            spyDuhMember.Friends = reader.GetGuid(5);
-            spyDuhMember.Enemies = reader.GetGuid(6);
+            //spyDuhMember.Skills = reader.GetGuid(3);
+            //spyDuhMember.Services = reader.GetGuid(4);
+            //spyDuhMember.Friends = reader.["Friends"];
+            //spyDuhMember.Enemies = reader.GetGuid(6);
 
             return spyDuhMember;
         }

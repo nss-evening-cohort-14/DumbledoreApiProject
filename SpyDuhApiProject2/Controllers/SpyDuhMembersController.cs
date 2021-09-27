@@ -27,7 +27,7 @@ namespace SpyDuhApiProject2.Controllers
         {
             var spy = _spiesRepository.GetById(spyId);
 
-            if (spy == null) return NotFound("There was no matching spy in the database");     
+            if (spy == null) return NotFound("There was no matching spy in the database");
 
 
             // fix this logic
@@ -61,15 +61,15 @@ namespace SpyDuhApiProject2.Controllers
 
         //    return Ok(foundBySkill);      
         //}
-        
 
-        //[HttpPatch("addFriend/{accountId}")]
-        //public IActionResult AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
-        //{
-        //    _spyDuhMembersRepository.AddFriendToSpyDuhAccount(accountId, friendId);
-        //    var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
-        //    return Ok(updatedAccount);
-        //}
+
+        [HttpPatch("addFriend/{accountId}")]
+        public IActionResult AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
+        {
+            _spyDuhMembersRepository.AddFriendToSpyDuhAccount(accountId, friendId);
+            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedAccount);
+        }
 
         //[HttpPatch("removeFriend/{accountId}")]
         //public IActionResult RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
@@ -82,7 +82,7 @@ namespace SpyDuhApiProject2.Controllers
         //    _spyDuhMembersRepository.RemoveFriendFromSpyDuhAccount(accountId, friendId);
         //    return Ok(member);
         //}
-        
+
         //[HttpPatch("addEnemy/{accountId}")]
         //public IActionResult AddEnemyToSpyDuhAccount(Guid accountId, Guid enemyId)
         //{
