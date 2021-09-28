@@ -26,15 +26,11 @@ namespace SpyDuhApiProject2.Controllers
         public IActionResult CreateSpyDuhMember(Guid spyId)
         {
             var spy = _spiesRepository.GetById(spyId);
-
             if (spy == null) return NotFound("There was no matching spy in the database");
 
-
-            // fix this logic
             var memberExistsCheck = _spyDuhMembersRepository.GetById(spyId);
-
             if (memberExistsCheck != null) return BadRequest("This spy is already a SpyDuh member.");
-            // end fix
+
             var newSpyDuhMember = new SpyDuhMember();
             newSpyDuhMember.Id = spy.Id;
             newSpyDuhMember.Alias = spy.Alias;

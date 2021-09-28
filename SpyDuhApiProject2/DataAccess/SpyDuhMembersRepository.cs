@@ -60,8 +60,7 @@ namespace SpyDuhApiProject2.DataAccess
             command.Parameters.AddWithValue("Alias", newSpyDuhMember.Alias);
             command.Parameters.AddWithValue("AboutMe", newSpyDuhMember.AboutMe);
 
-            var newId = (Guid)command.ExecuteScalar();
-            newSpyDuhMember.Id = newId;
+            command.ExecuteNonQuery();
           
         }
 
