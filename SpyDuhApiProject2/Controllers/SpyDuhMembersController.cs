@@ -62,9 +62,9 @@ namespace SpyDuhApiProject2.Controllers
         [HttpPatch("addFriend/{accountId}")]
         public IActionResult AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
         {
-            _spyDuhMembersRepository.AddFriendToSpyDuhAccount(accountId, friendId);
-            var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
-            return Ok(updatedAccount);
+            var updatedMember = _spyDuhMembersRepository.AddFriendToSpyDuhAccount(accountId, friendId);
+            //var updatedAccount = _spyDuhMembersRepository.GetById(accountId);
+            return Ok(updatedMember);
         }
 
         //[HttpPatch("removeFriend/{accountId}")]

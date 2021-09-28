@@ -96,3 +96,12 @@ CREATE TABLE dbo.ServicesJoin
 	)
 
 
+
+--create Friends table
+create table Friends (
+	Id uniqueidentifier NOT NULL Primary Key default(newsequentialid()),
+	Alias varchar(50) NOT NULL,
+	SpyDuhMemberId uniqueIdentifier NOT NULL
+	CONSTRAINT FK_Friends_SpyDuhMembers FOREIGN KEY (SpyDuhMemberId)
+		REFERENCES SpyDuhMembers (Id)
+	)
