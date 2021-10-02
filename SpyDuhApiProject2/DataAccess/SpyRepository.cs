@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using Dapper;
 
 namespace SpyDuhApiProject2.DataAccess
 {
@@ -11,58 +12,25 @@ namespace SpyDuhApiProject2.DataAccess
     {
 
         const string _connectionString = "Server=localhost; Database=SpyDuh; Trusted_Connection=true;";
-        internal Spy GetById(Guid spyId)
-        {
-            using var connection = new SqlConnection(_connectionString);
-            connection.Open();
-
-            var command = connection.CreateCommand();
-
-            command.CommandText = @"Select * 
-                                    From Spy
-                                    Where Id = @id";
-            command.Parameters.AddWithValue("id", spyId);
-
-            var reader = command.ExecuteReader();
-
-            if (reader.Read())
-            {
-                return MapFromReader(reader);
-            }
-
-            return null;
-
-        }
 
         internal IEnumerable<Spy> GetAll()
         {
-            using var connection = new SqlConnection(_connectionString);
-            connection.Open();
-
-            var command = connection.CreateCommand();
-            command.CommandText = @"Select *
-                                    From Spy";
-            var reader = command.ExecuteReader();
-            var spies = new List<Spy>();
-
-            while (reader.Read())
-            {
-                var spy = MapFromReader(reader);
-                spies.Add(spy);
-            }
-
+            using var db = new SqlConnection(_connectionString);
+            var spies = db.Query<Spy>(@"Select * From Spy");
             return spies;
         }
 
-        Spy MapFromReader(SqlDataReader reader)
+        internal Spy GetById(Guid spyId)
         {
-            var spy = new Spy();
+            using var db = new SqlConnection(_connectionString);
 
-            spy.Id = reader.GetGuid(0);
-            spy.Alias = reader["Alias"].ToString();
-            spy.AboutMe = reader["AboutMe"].ToString();
+            var sql = @"Select * 
+                        From Spy
+                        Where Id = @id";
+            var spy = db.QuerySingleOrDefault<Spy>(sql, new {id = spyId });
 
             return spy;
         }
+
     }
 }
