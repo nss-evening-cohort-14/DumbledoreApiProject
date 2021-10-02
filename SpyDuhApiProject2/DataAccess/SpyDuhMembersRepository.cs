@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 
 namespace SpyDuhApiProject2.DataAccess
 {
@@ -66,25 +67,13 @@ namespace SpyDuhApiProject2.DataAccess
 
         internal IEnumerable<SpyDuhMember> GetAll()
         {
-            using var connection = new SqlConnection(_connectionString);
-            connection.Open();
+            using var db = new SqlConnection(_connectionString);
 
-            var command = connection.CreateCommand();
-            command.CommandText = @"select * 
-                                    from SpyDuhMembers";
+            var sql = @"select * 
+                        from SpyDuhMembers";
+            var members = db.Query<SpyDuhMember>(sql);
 
-            var reader = command.ExecuteReader();
-
-            var spyDuhMembers = new List<SpyDuhMember>();
-
-            while (reader.Read())
-            {
-                var spyDuhMember = MapFromReader(reader);
-
-                spyDuhMembers.Add(spyDuhMember);
-            }
-
-            return spyDuhMembers;
+            return members;
         }
 
         //internal IEnumerable<SpyDuhMember> FindBySkill(string skill)
@@ -101,21 +90,16 @@ namespace SpyDuhApiProject2.DataAccess
 
         internal SpyDuhMember GetById(Guid spyDuhId)
         {
-            using var connection = new SqlConnection(_connectionString);
-            connection.Open();
+            using var db = new SqlConnection(_connectionString);
 
-            var command = connection.CreateCommand();
-            command.CommandText = @"Select * 
-                                    From SpyDuhMembers 
-                                    where Id = @id";
-            command.Parameters.AddWithValue("id", spyDuhId);
+            var sql = @"Select * 
+                        From SpyDuhMembers 
+                        where Id = @id";
 
-            var reader = command.ExecuteReader();
-            if (reader.Read())
-            {
-                return MapFromReader(reader);
-            }
-            return null;
+            var member = db.QuerySingleOrDefault<SpyDuhMember>(sql, new { id = spyDuhId });
+
+            return member;
+
         }
 
         internal object AddFriendToSpyDuhAccount(Guid accountToUpdateId, Guid newFriendId)
