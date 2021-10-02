@@ -19,13 +19,19 @@ CREATE TABLE dbo.SpyDuhMembers
 	(
 	Id uniqueidentifier NOT NULL default(newsequentialid()),
 	Alias varchar(50) NOT NULL,
-	AboutMe varchar(200) NOT NULL,
-	SkillsId uniqueidentifier NULL,
-	ServicesId uniqueidentifier NULL,
-	FriendsId uniqueidentifier NULL,
-	EnemiesId uniqueidentifier NULL,
+	AboutMe varchar(200) NOT NULL
 	CONSTRAINT PK_SpyDuhMembers_SpuDuhMembersId PRIMARY KEY CLUSTERED (Id)
 	);
+
+--create Friends table
+create table Friends (
+	Id uniqueidentifier NOT NULL Primary Key default(newsequentialid()),
+	SpyDuhMemberId uniqueIdentifier NOT NULL,
+	FriendsId uniqueIdentifier NOT NULL,
+	FriendsAlias varchar(50) NOT NULL
+	CONSTRAINT FK_Friends_SpyDuhMembers FOREIGN KEY (SpyDuhMemberId)
+		REFERENCES SpyDuhMembers (Id)
+	)
 
 	--create Skills table
 CREATE TABLE dbo.Skills
@@ -97,11 +103,5 @@ CREATE TABLE dbo.ServicesJoin
 
 
 
---create Friends table
-create table Friends (
-	Id uniqueidentifier NOT NULL Primary Key default(newsequentialid()),
-	Alias varchar(50) NOT NULL,
-	SpyDuhMemberId uniqueIdentifier NOT NULL
-	CONSTRAINT FK_Friends_SpyDuhMembers FOREIGN KEY (SpyDuhMemberId)
-		REFERENCES SpyDuhMembers (Id)
-	)
+
+

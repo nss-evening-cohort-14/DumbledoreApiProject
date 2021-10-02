@@ -118,7 +118,7 @@ namespace SpyDuhApiProject2.DataAccess
             return null;
         }
 
-        internal object AddFriendToSpyDuhAccount(Guid accountId, Guid friendId)
+        internal object AddFriendToSpyDuhAccount(Guid accountToUpdateId, Guid newFriendId)
         {
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
@@ -129,8 +129,8 @@ namespace SpyDuhApiProject2.DataAccess
                                     Output inserted.*
                                     where Id = @Id";
 
-            command.Parameters.AddWithValue("FriendsId", friendId);
-            command.Parameters.AddWithValue("Id", accountId);
+            command.Parameters.AddWithValue("FriendsId", accountToUpdateId);
+            command.Parameters.AddWithValue("Id", newFriendId);
 
             var reader = command.ExecuteReader();
 
