@@ -102,30 +102,32 @@ namespace SpyDuhApiProject2.DataAccess
 
         }
 
-        internal object AddFriendToSpyDuhAccount(Guid accountToUpdateId, Guid newFriendId)
+        internal object CheckFriendExists(Guid spyDuhMemberId, Guid friendsId)
         {
-            using var connection = new SqlConnection(_connectionString);
-            connection.Open();
+            using var db = new SqlConnection(_connectionString);
 
-            var command = connection.CreateCommand();
-            command.CommandText = @"update SpyDuhMembers
-                                    Set FriendsId = @FriendsId
-                                    Output inserted.*
-                                    where Id = @Id";
-
-            command.Parameters.AddWithValue("FriendsId", accountToUpdateId);
-            command.Parameters.AddWithValue("Id", newFriendId);
-
-            var reader = command.ExecuteReader();
-
-            if (reader.Read())
-            {
-                var updatedMember = MapFromReader(reader);
-                return updatedMember;
-            }
-
-            return null;
+            var sql = @"select * from Friends
+                        Where SpyDuhMemberId = @id and 
+                              FriendsId = @friendId";
+            var relationshipCheck = db.QueryFirstOrDefault(sql, new { id = spyDuhMemberId, friendId = friendsId });
+            return relationshipCheck;
         }
+        internal object AddFriendToSpyDuhAccount(Guid spyDuhMemberId, Guid friendsId, string friendsAlias)
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var sql = @"insert into Friends (SpyDuhMemberId, FriendsId, FriendsAlias)
+                        output inserted.SpyDuhMemberId
+	                    values(@id, @friendId, @friendAlias)";
+            var parameters = new DynamicParameters();
+            parameters.Add("id", spyDuhMemberId);
+            parameters.Add("friendId", friendsId);
+            parameters.Add("friendAlias", friendsAlias);
+            var updatedMember = db.ExecuteScalar(sql, parameters);
+
+            return updatedMember;
+        }
+
         //internal void RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
         //{
         //    var repo = new SpyDuhMembersRepository();

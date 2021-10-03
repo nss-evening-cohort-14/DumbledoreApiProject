@@ -18,6 +18,14 @@ namespace SpyDuhApiProject2.Controllers
             _spyRepo = new SpyRepository();
         }
 
+
+        [HttpGet]
+        public IActionResult GetAllSpies()
+        {
+            return Ok(_spyRepo.GetAll());
+        }
+
+
         [HttpGet("{id}")]
         public IActionResult GetSpyById (Guid id)
         {
@@ -26,12 +34,6 @@ namespace SpyDuhApiProject2.Controllers
             if (spy == null) return NotFound($"No spy with the id {id} was found.");
 
             return Ok(spy);
-        }
-
-        [HttpGet]
-        public IActionResult GetAllSpies()
-        {
-            return Ok(_spyRepo.GetAll());
         }
     }
 }

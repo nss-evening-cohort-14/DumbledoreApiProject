@@ -22,6 +22,12 @@ namespace SpyDuhApiProject2.Controllers
             _spyDuhMembersRepository = new SpyDuhMembersRepository();
         }
 
+        [HttpGet]
+        public IActionResult GetAllSpyDuhMembers()
+        {
+            return Ok(_spyDuhMembersRepository.GetAll());
+        }
+
         [HttpPost]
         public IActionResult CreateSpyDuhMember(Guid spyId)
         {
@@ -41,11 +47,7 @@ namespace SpyDuhApiProject2.Controllers
 
         }
 
-        [HttpGet]
-        public IActionResult GetAllSpyDuhMembers()
-        {
-            return Ok(_spyDuhMembersRepository.GetAll());
-        }
+        
 
         //[HttpGet("membersBySkill")]
         //public IActionResult GetMembersBySkill(string skill)
@@ -59,11 +61,17 @@ namespace SpyDuhApiProject2.Controllers
         //}
 
 
-        [HttpPatch("addFriend/{accountId}")]
-        public IActionResult AddFriendToSpyDuhAccount(Guid accountToUpdateId, Guid newFriendId)
+        [HttpPost("addFriend/{accountToUpdateId}")]
+        public IActionResult AddFriendToSpyDuhAccount(Guid accountToUpdateId, Guid newFriendId, string newFriendAlias)
         {
-            var updatedMember = _spyDuhMembersRepository.AddFriendToSpyDuhAccount(accountToUpdateId, newFriendId);
-            return Ok(updatedMember);
+            var relationshipCheck = _spyDuhMembersRepository.CheckFriendExists(accountToUpdateId, newFriendId);
+            if (relationshipCheck == null)
+            {
+                var updatedMember = _spyDuhMembersRepository.AddFriendToSpyDuhAccount(accountToUpdateId, newFriendId, newFriendAlias);
+                return Ok(updatedMember);
+            }
+            return BadRequest("This friendship already exists.");
+
         }
 
         //[HttpPatch("removeFriend/{accountId}")]
