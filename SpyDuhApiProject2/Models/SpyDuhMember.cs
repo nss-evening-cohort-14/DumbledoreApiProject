@@ -19,7 +19,7 @@ namespace SpyDuhApiProject2.Models
     public class SpyDuhMemberFriend
     {
         public Guid Id { get; set; }
-        public string Alias { get; set; } 
-        public Guid SpyDuhMemberId { get; set; }
+        public Guid FriendsId { get; set; }
+        public string FriendsAlias { get; set; }
     }
 }

@@ -12,57 +12,12 @@ namespace SpyDuhApiProject2.DataAccess
     {
         const string _connectionString = "Server=localhost; Database=SpyDuh; Trusted_Connection=true;";
  
-        static List<SpyDuhMember> _spyDuhMembers = new List<SpyDuhMember>
-        {
-            new SpyDuhMember
-            {
-                Alias = "Harry",
-                Id = Guid.Parse("e7c4af1e-c8d4-4998-a611-0b31cc62d312"),
-                AboutMe = "I'm super nosy so I became a spy.",
-                /*Skills = new List<string> { "Stealth", "Investigation", "camouflage" },
-                Services = new List<string> {"Breaking in to read people's diaries", "Infiltrating an organization"},
-                Friends = new List<Guid>
-                {
-                    Guid.Parse("0a0498c4-6d99-4de8-b687-127a0b89bb2a")
-                },
-                Enemies = new List<Guid>
-                {
-                    Guid.Parse("14d2d829-a609-4fe4-82ad-5dab2444e274")
-                }*/
-            },
-             new SpyDuhMember
-            {
-                Alias = "Larry",
-                Id = Guid.Parse("11692ac4-9d81-4be5-8fd3-5154b1579a94"),
-                AboutMe = "I became a spy to take down evil corporations.",
-                //Skills = new List<string> { "hacking", "investigation", "impersonation" },
-                //Services = new List<string> {"Breaking in to read people's diaries", "Hacking into a corporation's sensitive data"},
-                //Friends = new List<Guid>
-                //{
-                //    Guid.Parse("14d2d829-a609-4fe4-82ad-5dab2444e274")
-                //},
-                //Enemies = new List<Guid>
-                //{
-                //    Guid.Parse("0a0498c4-6d99-4de8-b687-127a0b89bb2a")
-                //}
-             }
-        };
-
         internal void Add(SpyDuhMember newSpyDuhMember)
         {
-            using var connection = new SqlConnection(_connectionString);
-            connection.Open();
-
-            var command = connection.CreateCommand();
-            command.CommandText = @"insert into SpyDuhMembers(Id, Alias, AboutMe)
-                                    values(@Id, @Alias, @AboutMe)";
-
-            command.Parameters.AddWithValue("Id", newSpyDuhMember.Id);
-            command.Parameters.AddWithValue("Alias", newSpyDuhMember.Alias);
-            command.Parameters.AddWithValue("AboutMe", newSpyDuhMember.AboutMe);
-
-            command.ExecuteNonQuery();
-          
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"insert into SpyDuhMembers(Id, Alias, AboutMe)
+                        values(@Id, @Alias, @AboutMe)";
+            db.Execute(sql, newSpyDuhMember);
         }
 
         internal IEnumerable<SpyDuhMember> GetAll()
@@ -76,27 +31,35 @@ namespace SpyDuhApiProject2.DataAccess
             return members;
         }
 
-        //internal IEnumerable<SpyDuhMember> FindBySkill(string skill)
-        //{
-        //    var foundBySkill = _spyDuhMembers.Where(member => member.Skills.ConvertAll(skill => skill.ToLower()).Contains(skill.ToLower()));
-        //    return foundBySkill;
-        //}
 
-        //internal SpyDuhMember FindByService(string service)
-        //{
-        //    var foundByService = _spyDuhMembers.FirstOrDefault(member => member.Services.ConvertAll(service => service.ToLower()).Contains(service.ToLower()));
-        //    return foundByService;
-        //}
 
         internal SpyDuhMember GetById(Guid spyDuhId)
         {
             using var db = new SqlConnection(_connectionString);
 
-            var sql = @"Select * 
-                        From SpyDuhMembers 
-                        where Id = @id";
+            var memberSql = @"Select * 
+                              From SpyDuhMembers 
+                              where Id = @id";
 
-            var member = db.QuerySingleOrDefault<SpyDuhMember>(sql, new { id = spyDuhId });
+            var member = db.QuerySingleOrDefault<SpyDuhMember>(memberSql, new { id = spyDuhId });
+
+            if (member == null) return null;
+
+            // get member's friends
+
+            var friendSql = @"Select *
+                              From Friends 
+                              where SpyDuhMemberId = @memberId";
+
+            var friends = db.Query<SpyDuhMemberFriend>(friendSql, new { memberId = spyDuhId });
+
+            member.Friends = friends;
+
+            // get member's enemies
+
+            // get member's skills
+
+            // get member's services
 
             return member;
 
@@ -127,6 +90,20 @@ namespace SpyDuhApiProject2.DataAccess
 
             return updatedMember;
         }
+
+
+        //internal IEnumerable<SpyDuhMember> FindBySkill(string skill)
+        //{
+        //    var foundBySkill = _spyDuhMembers.Where(member => member.Skills.ConvertAll(skill => skill.ToLower()).Contains(skill.ToLower()));
+        //    return foundBySkill;
+        //}
+
+        //internal SpyDuhMember FindByService(string service)
+        //{
+        //    var foundByService = _spyDuhMembers.FirstOrDefault(member => member.Services.ConvertAll(service => service.ToLower()).Contains(service.ToLower()));
+        //    return foundByService;
+        //}
+
 
         //internal void RemoveFriendFromSpyDuhAccount(Guid accountId, Guid friendId)
         //{

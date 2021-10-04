@@ -18,14 +18,8 @@ namespace SpyDuhApiProject2.Controllers
 
         public SpyDuhMembersController()
         {
-            _spiesRepository = new SpyRepository(); 
+            _spiesRepository = new SpyRepository();
             _spyDuhMembersRepository = new SpyDuhMembersRepository();
-        }
-
-        [HttpGet]
-        public IActionResult GetAllSpyDuhMembers()
-        {
-            return Ok(_spyDuhMembersRepository.GetAll());
         }
 
         [HttpPost]
@@ -41,25 +35,24 @@ namespace SpyDuhApiProject2.Controllers
             newSpyDuhMember.Id = spy.Id;
             newSpyDuhMember.Alias = spy.Alias;
             newSpyDuhMember.AboutMe = spy.AboutMe;
-            
-            _spyDuhMembersRepository.Add(newSpyDuhMember);
-            return Created($"/api/spyDuhMembers/{newSpyDuhMember.Id}", newSpyDuhMember); 
 
+            _spyDuhMembersRepository.Add(newSpyDuhMember);
+            return Created($"/api/spyDuhMembers/{newSpyDuhMember.Id}", newSpyDuhMember);
         }
 
-        
+        [HttpGet]
+        public IActionResult GetAllSpyDuhMembers()
+        {
+            return Ok(_spyDuhMembersRepository.GetAll());
+        }
 
-        //[HttpGet("membersBySkill")]
-        //public IActionResult GetMembersBySkill(string skill)
-        //{
-        //    var foundBySkill = _spyDuhMembersRepository.FindBySkill(skill);
-
-        //    if (foundBySkill.Any() == false)
-        //        return NotFound("No members possess this skill.");
-
-        //    return Ok(foundBySkill);      
-        //}
-
+        [HttpGet("{id}")]
+        public IActionResult GetSpyDuhMemberById(Guid id)
+        {
+            var member = _spyDuhMembersRepository.GetById(id);
+            if (member == null) return NotFound($"No member with the id {id} was found.");
+            return Ok(member);
+        }
 
         [HttpPost("addFriend/{accountToUpdateId}")]
         public IActionResult AddFriendToSpyDuhAccount(Guid accountToUpdateId, Guid newFriendId, string newFriendAlias)
@@ -115,6 +108,17 @@ namespace SpyDuhApiProject2.Controllers
         //public IActionResult ShowFriendsOfAccount(Guid accountId)
         //{
         //    return Ok(_spyDuhMembersRepository.ShowAccountFriends(accountId));
+        //}
+
+        //[HttpGet("membersBySkill")]
+        //public IActionResult GetMembersBySkill(string skill)
+        //{
+        //    var foundBySkill = _spyDuhMembersRepository.FindBySkill(skill);
+
+        //    if (foundBySkill.Any() == false)
+        //        return NotFound("No members possess this skill.");
+
+        //    return Ok(foundBySkill);      
         //}
 
         //[HttpGet("skills")]
