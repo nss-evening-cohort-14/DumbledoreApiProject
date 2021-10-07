@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace SpyDuhApiProject2.Controllers
 {
@@ -13,15 +14,27 @@ namespace SpyDuhApiProject2.Controllers
     public class SpiesController : ControllerBase
     {
         SpyRepository _spyRepo;
-        public SpiesController()
+        public SpiesController(SpyRepository spyRepo) 
         {
-            _spyRepo = new SpyRepository();
+            _spyRepo = spyRepo;
         }
+
 
         [HttpGet]
         public IActionResult GetAllSpies()
         {
             return Ok(_spyRepo.GetAll());
+        }
+
+
+        [HttpGet("{id}")]
+        public IActionResult GetSpyById (Guid id)
+        {
+            var spy = _spyRepo.GetById(id);
+
+            if (spy == null) return NotFound($"No spy with the id {id} was found.");
+
+            return Ok(spy);
         }
     }
 }

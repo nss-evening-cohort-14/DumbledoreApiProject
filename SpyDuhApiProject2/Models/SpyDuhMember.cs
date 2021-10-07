@@ -5,11 +5,22 @@ using System.Threading.Tasks;
 
 namespace SpyDuhApiProject2.Models
 {
-    public class SpyDuhMember: Spy
+    public class SpyDuhMember
     {
-        public List<Guid> Friends { get; set; }
-        public List<Guid> Enemies { get; set; } 
-        public List <string> Skills { get; set; }
-        public List <string> Services { get; set; }
+        public Guid Id { get; set; }
+        public string Alias { get; set; }
+        public string AboutMe { get; set; }
+        public IEnumerable<SpyDuhMemberFriend> Friends { get; set; }
+        public Guid Enemies { get; set; } 
+        public Guid Skills { get; set; }
+        public Guid Services { get; set; }
+    }
+
+    public class SpyDuhMemberFriend
+    {
+        public Guid Id { get; set; }
+        public Guid SpyDuhMemberId { get; set; }
+        public Guid FriendsId { get; set; }
+        public string FriendsAlias { get; set; }
     }
 }
