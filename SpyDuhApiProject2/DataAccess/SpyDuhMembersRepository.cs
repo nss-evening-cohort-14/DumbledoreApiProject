@@ -5,12 +5,18 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 
 namespace SpyDuhApiProject2.DataAccess
 {
     public class SpyDuhMembersRepository
     {
-        const string _connectionString = "Server=localhost; Database=SpyDuh; Trusted_Connection=true;";
+        string _connectionString;
+
+        public SpyDuhMembersRepository(IConfiguration config)
+        {
+            _connectionString = config.GetConnectionString("SpyDuh");
+        }
  
         internal void Add(SpyDuhMember newSpyDuhMember)
         {
@@ -24,9 +30,26 @@ namespace SpyDuhApiProject2.DataAccess
         {
             using var db = new SqlConnection(_connectionString);
 
-            var sql = @"select * 
-                        from SpyDuhMembers";
-            var members = db.Query<SpyDuhMember>(sql);
+            var membersSql = @"select * 
+                              from SpyDuhMembers";
+            var members = db.Query<SpyDuhMember>(membersSql);
+
+            // get all friends
+            var friendsSql = @"Select *
+                              From Friends";
+            var friends = db.Query<SpyDuhMemberFriend>(friendsSql);
+
+            foreach (SpyDuhMember member in members)
+            {
+                member.Friends = friends.Where(friend => friend.SpyDuhMemberId == member.Id);
+            }
+            
+            // get all enemies
+
+            // get all skills
+
+            // get all services
+
 
             return members;
         }
@@ -42,7 +65,7 @@ namespace SpyDuhApiProject2.DataAccess
                               where Id = @id";
 
             var member = db.QuerySingleOrDefault<SpyDuhMember>(memberSql, new { id = spyDuhId });
-
+            
             if (member == null) return null;
 
             // get member's friends

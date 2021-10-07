@@ -5,13 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 
 namespace SpyDuhApiProject2.DataAccess
 {
     public class SpyRepository
     {
 
-        const string _connectionString = "Server=localhost; Database=SpyDuh; Trusted_Connection=true;";
+        readonly string _connectionString;
+
+        public SpyRepository(IConfiguration config)
+        {
+            _connectionString = config.GetConnectionString("SpyDuh");
+        }
 
         internal IEnumerable<Spy> GetAll()
         {

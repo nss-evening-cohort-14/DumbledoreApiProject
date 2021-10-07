@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace SpyDuhApiProject2.Controllers
 {
@@ -13,9 +14,9 @@ namespace SpyDuhApiProject2.Controllers
     public class SpiesController : ControllerBase
     {
         SpyRepository _spyRepo;
-        public SpiesController()
+        public SpiesController(SpyRepository spyRepo) 
         {
-            _spyRepo = new SpyRepository();
+            _spyRepo = spyRepo;
         }
 
 
